@@ -16,8 +16,8 @@ class nRSS(Node):
         self.timer = self.create_timer(1.0, self.timer_callback)
         self.distance = -1.0
 
-    def timer_callback(self):
-        self.distance = self.read_distance()
+    async def timer_callback(self):
+        self.distance = await self.read_distance()
         if self.distance < 0:
             self.get_logger().error('failed to read distance')
             return
@@ -27,8 +27,8 @@ class nRSS(Node):
         self.publisher_.publish(msg)
         self.get_logger().info('Publishing: "%f"' % msg.data)
 
-    def read_distance(self):
-        rssi = get_rssi()
+    async def read_distance(self):
+        rssi = await get_rssi()
         if rssi is not None:
             distance = rssi_to_distance(rssi)
             return distance
