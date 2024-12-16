@@ -46,8 +46,8 @@ class nAruco(Node):
         self.id_publisher_.publish(msg)
         self.get_logger().info('Publishing id: %d' % msg.data)
 
-    def open_camera(self, cam_num=1):
-        self.camera = cv2.VideoCapture(1) 
+    def open_camera(self, cam_num=0):
+        self.camera = cv2.VideoCapture(cam_num) 
         if not self.camera.isOpened():
             self.get_logger().error('failed to open camera')
         return self.camera.isOpened()
