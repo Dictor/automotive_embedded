@@ -77,7 +77,7 @@ class nAruco(Node):
         normal_vector = -rmat[:, 2]
 
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        return (normal_vector, id)
+        return ([normal_vector[0], normal_vector[1], normal_vector[2]], id)
 
     def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec):
         blue_BGR = (255, 0, 0)
