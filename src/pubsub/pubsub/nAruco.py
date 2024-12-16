@@ -64,7 +64,7 @@ class nAruco(Node):
             return None
         
         corners, ids, _ = self.aruco_detector.detectMarkers(img)
-        if ids is None:
+        if ids is None or len(corners) == 0:
             self.get_logger().error('no marker detected')
             return None
         i = 0
