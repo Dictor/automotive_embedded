@@ -70,7 +70,8 @@ class nAruco(Node):
         i = 0
         id = ids[i][0]
 
-        rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        #rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corners[i], 0.05, self.camera_matrix, self.camera_dist_coeffs)
         corner = np.array(corners[i]).reshape((4, 2))
         rmat, _ = cv2.Rodrigues(rvecs[i])
         normal_vector = -rmat[:, 2]
@@ -111,6 +112,30 @@ class nAruco(Node):
         normal_text = f"({normal_vector[0]:.2f}, {normal_vector[1]:.2f}, {normal_vector[2]:.2f})"
         cv2.putText(img, normal_text, (centerX + 10, centerY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
 
+def my_estimatePoseSingleMarkers(corner, marker_size, mtx, distortion):
+    '''
+    https://stackoverflow.com/questions/76802576/how-to-estimate-pose-of-single-marker-in-opencv-python-4-8-0
+    This will estimate the rvec and tvec for each of the marker corners detected by:
+       corners, ids, rejectedImgPoints = detector.detectMarkers(image)
+    corners - is an array of detected corners for each detected marker in the image
+    marker_size - is the size of the detected markers
+    mtx - is the camera matrix
+    distortion - is the camera distortion matrix
+    RETURN list of rvecs, tvecs, and trash (so that it corresponds to the old estimatePoseSingleMarkers())
+    '''
+    marker_points = np.array([[-marker_size / 2, marker_size / 2, 0],
+                              [marker_size / 2, marker_size / 2, 0],
+                              [marker_size / 2, -marker_size / 2, 0],
+                              [-marker_size / 2, -marker_size / 2, 0]], dtype=np.float32)
+    trash = []
+    rvecs = []
+    tvecs = []
+
+    nada, R, t = cv2.solvePnP(marker_points, corner, mtx, distortion, False, cv2.SOLVEPNP_IPPE_SQUARE)
+    rvecs.append(R)
+    tvecs.append(t)
+    trash.append(nada)
+    return rvecs, tvecs, trash
 
 def main(args=None):
     rclpy.init(args=args)
