@@ -16,8 +16,8 @@ class nRSS(Node):
         self.timer = self.create_timer(1.0, self.timer_callback)
         self.distance = -1.0
 
-    async def timer_callback(self):
-        self.distance = await self.read_distance()
+    def timer_callback(self):
+        self.distance = asyncio.run(self.read_distance())
         if self.distance < 0:
             self.get_logger().error('failed to read distance')
             return
