@@ -1,6 +1,12 @@
+# for ros
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String, Float32
+
+# for ble
+import asyncio
+from bleak import BleakScanner
+import math
 
 
 class nRSS(Node):
@@ -11,8 +17,9 @@ class nRSS(Node):
         self.distance = -1.0
 
     def timer_callback(self):
-        self.distance = read_distance()
+        self.distance = self.read_distance()
         if self.distance < 0:
+            self.get_logger().error('failed to read distance')
             return
 
         msg = Float32()
@@ -20,6 +27,13 @@ class nRSS(Node):
         self.publisher_.publish(msg)
         self.get_logger().info('Publishing: "%f"' % msg.data)
 
+    def read_distance(self):
+        rssi = get_rssi()
+        if rssi is not None:
+            distance = rssi_to_distance(rssi)
+            return distance
+        else:
+            return -1
 
 def main(args=None):
     rclpy.init(args=args)
@@ -28,9 +42,15 @@ def main(args=None):
     node.destroy_node()
     rclpy.shutdown()
 
-def read_distance():
-    # Fill here
-    return 0.0
+async def get_rssi(target_name="HMSoft"):
+    devices = await BleakScanner.discover(timeout=5.0)
+    for device in devices:
+        if target_name in (device.name or ""):
+            return device.rssi
+    return None
+
+def rssi_to_distance(rssi, tx_power=-59, n=3):
+    return 10 ** ((tx_power - rssi) / (10 * n)) / 5 
 
 
 if __name__ == '__main__':
