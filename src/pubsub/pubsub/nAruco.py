@@ -28,7 +28,7 @@ class nAruco(Node):
 
 
     def timer_callback(self):
-        marker = read_marker()
+        marker = self.read_marker()
         self.vector = marker[0]
         self.id = marker[1]
 
