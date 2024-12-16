@@ -29,6 +29,10 @@ class nAruco(Node):
 
     def timer_callback(self):
         marker = self.read_marker()
+        if marker is None:
+            self.get_logger().error('failed to read marker, skip.')
+            return
+
         self.vector = marker[0]
         self.id = marker[1]
 
