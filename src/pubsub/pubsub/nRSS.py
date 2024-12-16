@@ -13,7 +13,7 @@ class nRSS(Node):
     def __init__(self):
         super().__init__('rss')
         self.publisher_ = self.create_publisher(Float32, 'dist', 10)
-        self.timer = self.create_timer(1.0, self.timer_callback)
+        self.timer = self.create_timer(10, self.timer_callback)
         self.distance = -1.0
 
     def timer_callback(self):
