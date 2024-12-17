@@ -19,7 +19,7 @@ class nAruco(Node):
         self.aruco_board_type = cv2.aruco.DICT_4X4_250
         self.aruco_dict = cv2.aruco.getPredefinedDictionary(self.aruco_board_type)
         self.aruco_params = cv2.aruco.DetectorParameters()
-        self.aruco_detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
+        #self.aruco_detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
         
         self.camera = {}
         self.open_camera()
@@ -66,7 +66,8 @@ class nAruco(Node):
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
         
-        corners, ids, _ = self.aruco_detector.detectMarkers(img)
+        #corners, ids, _ = self.aruco_detector.detectMarkers(img)
+        corners, ids, _  = cv2.aruco.detectMarkers(img)
         if ids is None or len(corners) == 0:
             self.get_logger().error('no marker detected')
             return None
