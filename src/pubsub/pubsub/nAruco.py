@@ -73,14 +73,14 @@ class nAruco(Node):
         i = 0
         id = ids[i][0]
 
-        #rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
-        rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corners[i], 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        #rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corners[i], 0.05, self.camera_matrix, self.camera_dist_coeffs)
         corner = np.array(corners[i]).reshape((4, 2))
         rmat, _ = cv2.Rodrigues(rvecs[i])
         normal_vector = -rmat[:, 2]
 
-        #self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        self.draw_marker_window_new(img, corner)
+        self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
+        #self.draw_marker_window_new(img, corner)
 
         return ([float(normal_vector[0]), float(normal_vector[1]), float(normal_vector[2])], int(id))
 
