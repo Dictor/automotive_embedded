@@ -21,7 +21,7 @@ class nPosition(Node):
         self.position = [0.0, 0.0]
 
     def timer_callback(self):
-        self.get_logger().info('all subs: dist "%s" id "%d" vector "%s"' % (self.distance, self.id, self.vector))
+        self.get_logger().info('all subs: dist "%s" id "%d" vector "%s"' % (self.distance, self.id, self.angle))
         self.position = self.calc_position(self.angle, self.distance, self.id)
         msg = Float32MultiArray()
         msg.data = self.position
