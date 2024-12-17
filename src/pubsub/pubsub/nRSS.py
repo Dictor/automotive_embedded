@@ -43,7 +43,7 @@ def main(args=None):
     rclpy.shutdown()
 
 async def get_rssi(target_name="HMSoft"):
-    devices = await BleakScanner.discover(timeout=5.0)
+    devices = await BleakScanner.discover(timeout=9.0)
     for device in devices:
         if target_name in (device.name or ""):
             return device.rssi

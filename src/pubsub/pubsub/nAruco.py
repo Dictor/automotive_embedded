@@ -62,6 +62,7 @@ class nAruco(Node):
         if not ret:
             self.get_logger().error('failed to get image frame')
             return None
+        cv2.imshow("aruco", img)
         
         corners, ids, _ = self.aruco_detector.detectMarkers(img)
         if ids is None or len(corners) == 0:
@@ -111,6 +112,8 @@ class nAruco(Node):
 
         normal_text = f"({normal_vector[0]:.2f}, {normal_vector[1]:.2f}, {normal_vector[2]:.2f})"
         cv2.putText(img, normal_text, (centerX + 10, centerY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
+
+        cv2.imshow("aruco", img)
 
 def my_estimatePoseSingleMarkers(corner, marker_size, mtx, distortion):
     '''
