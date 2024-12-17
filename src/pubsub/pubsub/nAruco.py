@@ -25,7 +25,6 @@ class nAruco(Node):
         self.open_camera()
         self.camera_matrix = np.array([[708.98103121, 0., 92.95615081],[0., 744.00890861, 115.15472455],[0., 0., 1.]], dtype=np.float32)
         self.camera_dist_coeffs = np.array([[0.0806028, 0.29681539, -0.1700526, -0.06537184, -0.18592929]], dtype=np.float32)
-        cv2.startWindowThread()
         cv2.namedWindow("aruco")
 
 
@@ -65,6 +64,7 @@ class nAruco(Node):
             self.get_logger().error('failed to get image frame')
             return None
         cv2.imshow("aruco", img)
+        cv2.waitKey(1)
         
         corners, ids, _ = self.aruco_detector.detectMarkers(img)
         if ids is None or len(corners) == 0:
@@ -80,7 +80,8 @@ class nAruco(Node):
         normal_vector = -rmat[:, 2]
 
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        return ([normal_vector[0], normal_vector[1], normal_vector[2]], id)
+        self.get_logger().error('v %s"' % [normal_vector[0], normal_vector[1], normal_vector[2]])
+        return ([0,0,0], id)
 
     def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec):
         blue_BGR = (255, 0, 0)
@@ -116,6 +117,7 @@ class nAruco(Node):
         cv2.putText(img, normal_text, (centerX + 10, centerY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
 
         cv2.imshow("aruco", img)
+        cv2.waitKey(1)
 
 def my_estimatePoseSingleMarkers(corner, marker_size, mtx, distortion):
     '''
