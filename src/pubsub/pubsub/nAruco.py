@@ -19,7 +19,7 @@ class nAruco(Node):
         self.aruco_board_type = cv2.aruco.DICT_4X4_250
         self.aruco_dict = cv2.aruco.getPredefinedDictionary(self.aruco_board_type)
         self.aruco_params = cv2.aruco.DetectorParameters()
-        #self.aruco_detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
+        self.aruco_detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
         
         self.camera = {}
         self.open_camera()
@@ -66,16 +66,15 @@ class nAruco(Node):
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
         
-        #corners, ids, _ = self.aruco_detector.detectMarkers(img)
-        corners, ids, _  = cv2.aruco.detectMarkers(img)
+        corners, ids, _ = self.aruco_detector.detectMarkers(img)
         if ids is None or len(corners) == 0:
             self.get_logger().error('no marker detected')
             return None
         i = 0
         id = ids[i][0]
 
-        rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
-        #rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corners[i], 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        #rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corners[i], 0.05, self.camera_matrix, self.camera_dist_coeffs)
         corner = np.array(corners[i]).reshape((4, 2))
         rmat, _ = cv2.Rodrigues(rvecs[i])
         normal_vector = -rmat[:, 2]
