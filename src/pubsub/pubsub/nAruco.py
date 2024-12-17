@@ -83,11 +83,12 @@ class nAruco(Node):
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
         #self.draw_marker_window_new(img, corner)
 
+        angle1 = 0.0
         if euler_angle[0] < 0:
-            euler_angle[0] += 180
+            angle1 = euler_angle[0] + 180
         else:
-            euler_angle[0] = 180 - euler_angle[0]
-        return ([float(euler_angle[0]), float(euler_angle[1]), float(euler_angle[2])], int(id))
+            angle1 = 180 - euler_angle[0]
+        return ([float(angle1), float(euler_angle[1]), float(euler_angle[2])], int(id))
         #return ([float(normal_vector[0]), float(normal_vector[1]), float(normal_vector[2])], int(id))
 
     def draw_marker_window_new(self, img, corner):
