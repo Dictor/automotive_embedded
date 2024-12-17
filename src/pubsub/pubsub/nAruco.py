@@ -82,7 +82,10 @@ class nAruco(Node):
 
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
         #self.draw_marker_window_new(img, corner)
-
+        if not is_marker_center(img, corner):
+            self.get_logger().error('marker is not on center')
+            return None
+        
         angle1 = 0.0
         if euler_angle[0] < 0:
             angle1 = euler_angle[0] + 180
@@ -131,10 +134,23 @@ class nAruco(Node):
 
         normal_text = f"({normal_vector[0]:.2f}, {normal_vector[1]:.2f}, {normal_vector[2]:.2f})"
         cv2.putText(img, normal_text, (centerX + 10, centerY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
+        cv2.putText(img, "center : {}" % is_marker_center(img, corner), (10, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
 
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
 
+def is_marker_center(img, corner, margin_ratio = 0.05):
+    (topLeft, topRight, bottomRight, bottomLeft) = corner
+    corner_center_x = int((topLeft[0]+bottomRight[0]) / 2)
+    corner_center_y = int((topLeft[1]+bottomRight[1]) / 2)
+    image_height, image_width = img.shape[:2]
+    if corner_center_x >= (image_width / 2) - (image_width * margin_ratio) and corner_center_x <= (image_width / 2) + (image_width * margin_ratio):
+        if corner_center_y >= (image_height / 2) - (image_height * margin_ratio) and corner_center_y <= (image_height / 2) + (image_height * margin_ratio):
+            return True
+    return False
+
+
+    
 def my_estimatePoseSingleMarkers(corner, marker_size, mtx, distortion):
     '''
     https://stackoverflow.com/questions/76802576/how-to-estimate-pose-of-single-marker-in-opencv-python-4-8-0
