@@ -22,7 +22,7 @@ class nPosition(Node):
         msg = Float32MultiArray()
         msg.data = self.position
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%f"' % msg.data)
+        self.get_logger().info('Publishing: "%s"' % msg.data)
 
     def vector_callback(self, msg):
         self.vector = msg.data
