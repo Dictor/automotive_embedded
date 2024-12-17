@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'rss = pubsub.nRSS:main',
-            'aruco = pubsub.nAruco:main'
+            'aruco = pubsub.nAruco:main',
+            'position = pubsub.nPosition:main',
         ],
     },
 )

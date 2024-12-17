@@ -36,7 +36,6 @@ class nAruco(Node):
 
         self.vector = marker[0]
         self.id = marker[1]
-        print("id", self.id)
 
         msg = Float32MultiArray()
         msg.data = self.vector
