@@ -81,8 +81,8 @@ class nAruco(Node):
         euler_angle = cv2.RQDecomp3x3(rmat)[0]
 
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        #self.draw_marker_window_new(img, corner)
-        if not is_marker_center(img, corner):
+        is_center, diff_x, diff_y = is_marker_center(img, corner) 
+        if not is_center:
             self.get_logger().error('marker is not on center')
             return None
         
@@ -134,7 +134,10 @@ class nAruco(Node):
 
         normal_text = f"({normal_vector[0]:.2f}, {normal_vector[1]:.2f}, {normal_vector[2]:.2f})"
         cv2.putText(img, normal_text, (centerX + 10, centerY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
-        cv2.putText(img, "center : {}" % is_marker_center(img, corner), (10, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
+
+        is_center, diff_x, diff_y = is_marker_center(img, corner) 
+        cv2.putText(img, "center : %r" % is_center, (10, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
+        cv2.putText(img, "center diff : (%d, %d)" % (diff_x, diff_y), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
 
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
@@ -144,10 +147,12 @@ def is_marker_center(img, corner, margin_ratio = 0.05):
     corner_center_x = int((topLeft[0]+bottomRight[0]) / 2)
     corner_center_y = int((topLeft[1]+bottomRight[1]) / 2)
     image_height, image_width = img.shape[:2]
+    center_diff_x = (image_width / 2) - corner_center_x
+    center_diff_y = (image_height / 2) - corner_center_y
     if corner_center_x >= (image_width / 2) - (image_width * margin_ratio) and corner_center_x <= (image_width / 2) + (image_width * margin_ratio):
         if corner_center_y >= (image_height / 2) - (image_height * margin_ratio) and corner_center_y <= (image_height / 2) + (image_height * margin_ratio):
-            return True
-    return False
+            return (True, center_diff_x, center_diff_y)
+    return (False, center_diff_x, center_diff_y)
 
 
     
