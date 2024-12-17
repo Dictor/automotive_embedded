@@ -38,6 +38,7 @@ class nAruco(Node):
         self.id = marker[1]
 
         msg = Float32MultiArray()
+        print("vector", self.vector)
         msg.data = self.vector
         self.angle_publisher_.publish(msg)
         self.get_logger().info('Publishing angle: "%s"' % msg.data)
@@ -80,8 +81,7 @@ class nAruco(Node):
         normal_vector = -rmat[:, 2]
 
         self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        self.get_logger().error('v %s"' % [normal_vector[0], normal_vector[1], normal_vector[2]])
-        return ([0,0,0], id)
+        return ([normal_vector[0], normal_vector[1], normal_vector[2]], id)
 
     def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec):
         blue_BGR = (255, 0, 0)
