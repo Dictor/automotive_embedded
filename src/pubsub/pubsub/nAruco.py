@@ -23,8 +23,8 @@ class nAruco(Node):
         
         self.camera = {}
         self.open_camera()
-        self.camera_matrix = np.array([[708.98103121, 0., 92.95615081],[0., 744.00890861, 115.15472455],[0., 0., 1.]], dtype=np.float32)
-        self.camera_dist_coeffs = np.array([[0.0806028, 0.29681539, -0.1700526, -0.06537184, -0.18592929]], dtype=np.float32)
+        self.camera_matrix = np.array([[883.54778219,   0,         317.02516042], [  0,        883.13166889, 224.28063539], [  0,           0,         1.        ]], dtype=np.float32)
+        self.camera_dist_coeffs = np.array([[-8.82651699e-01,  2.51857887e+00, -9.06745177e-05,  1.63195259e-03,  -6.79037934e+00]], dtype=np.float32)
         cv2.namedWindow("aruco")
 
 
