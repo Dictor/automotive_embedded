@@ -12,7 +12,7 @@ class nAruco(Node):
         super().__init__('aruco')
         self.angle_publisher_ = self.create_publisher(Float32MultiArray, 'angle', 10)
         self.id_publisher_ = self.create_publisher(Int32, 'id', 10)
-        self.timer = self.create_timer(1.0, self.timer_callback)
+        self.timer = self.create_timer(0.1, self.timer_callback)
         self.vector = [0.0, 0.0, 0.0]
         self.id = -1
 
@@ -79,8 +79,18 @@ class nAruco(Node):
         rmat, _ = cv2.Rodrigues(rvecs[i])
         normal_vector = -rmat[:, 2]
 
-        self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
+        #self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
+        self.draw_marker_window_new(img, corner)
+
         return ([float(normal_vector[0]), float(normal_vector[1]), float(normal_vector[2])], int(id))
+
+    def draw_marker_window_new(self, img, corner):
+        rvecs, tvecs, _ = my_estimatePoseSingleMarkers(corner, 0.05, self.camera_matrix, self.camera_dist_coeffs)
+        cv2.aruco.drawDetectedMarkers(img, [corner])
+        cv2.aruco.drawAxis(img, self.camera_matrix, self.camera_dist_coeff, rvecs[0], tvecs[0], 0.01)  
+        cv2.imshow("aruco", img)
+        cv2.waitKey(1)
+
 
     def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec):
         blue_BGR = (255, 0, 0)
