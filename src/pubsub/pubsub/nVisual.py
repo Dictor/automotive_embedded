@@ -34,7 +34,7 @@ class nVisual(Node):
         self.position = [0.0, 0.0]
 
         self.rviz_marker = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, 'marker', red)
-        self.rviz_marker_text = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, "(%3f, %3f)" % (marker_x[0], marker_y[1]), red, Marker.TEXT_VIEW_FACING)
+        self.rviz_marker_text = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, "(%3f, %3f)" % (marker_x[0], marker_y[0]), red, Marker.TEXT_VIEW_FACING)
         self.rviz_reflu = make_static_marker('ref', 2, 0, 0, 0, '(0, 0)', blue, Marker.TEXT_VIEW_FACING)
         self.rviz_refld = make_static_marker('ref', 3, 0, 1.5, 0, '(0, 1.5)', blue, Marker.TEXT_VIEW_FACING)
         self.rviz_refru = make_static_marker('ref', 4, 3, 0, 0, '(3, 0)', blue, Marker.TEXT_VIEW_FACING)
