@@ -33,26 +33,26 @@ class nVisual(Node):
         self.timer = self.create_timer(1.0, self.timer_callback)
         self.position = [0.0, 0.0]
 
-        self.rviz_marker = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, 'marker', red)
-        self.rviz_marker_text = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, "(%3f, %3f)" % (marker_x[0], marker_y[0]), red, Marker.TEXT_VIEW_FACING)
-        self.rviz_reflu = make_static_marker('ref', 2, 0, 0, 0, '(0, 0)', blue, Marker.TEXT_VIEW_FACING)
-        self.rviz_refld = make_static_marker('ref', 3, 0, 1.5, 0, '(0, 1.5)', blue, Marker.TEXT_VIEW_FACING)
-        self.rviz_refru = make_static_marker('ref', 4, 3, 0, 0, '(3, 0)', blue, Marker.TEXT_VIEW_FACING)
-        self.rviz_refrd = make_static_marker('ref', 5, 3, 1.5, 0, '(3, 1.5)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_marker = make_static_marker('marker', 1, -marker_x[0], marker_y[0], 0, 'marker', red)
+        self.rviz_marker_text = make_static_marker('marker', 2, -marker_x[0], marker_y[0], 0, "(%3f, %3f)" % (marker_x[0], marker_y[0]), red, Marker.TEXT_VIEW_FACING)
+        self.rviz_reflu = make_static_marker('ref', 3, 0, 0, 0, '(0, 0)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refld = make_static_marker('ref', 4, 0, 1.5, 0, '(0, 1.5)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refru = make_static_marker('ref', 5, -3, 0, 0, '(3, 0)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refrd = make_static_marker('ref', 6, -3, 1.5, 0, '(3, 1.5)', blue, Marker.TEXT_VIEW_FACING)
 
         self.rviz_jetson = Marker()
         self.rviz_jetson.header.frame_id = 'map'
         self.rviz_jetson.ns = 'jetson'
-        self.rviz_jetson.id = 6
+        self.rviz_jetson.id = 7
         self.rviz_jetson.type = Marker.CUBE
         self.rviz_jetson.action = Marker.MODIFY
         self.rviz_jetson.color = green
         self.rviz_jetson.scale = scale
-        self.rviz_jetson_text = make_static_marker('jetson', 7, 0, 0, 0, "", green, Marker.TEXT_VIEW_FACING)
+        self.rviz_jetson_text = make_static_marker('jetson', 8, 0, 0, 0, "", green, Marker.TEXT_VIEW_FACING)
 
     def timer_callback(self):
         pose = Pose()
-        pose.position.x = self.position[0]
+        pose.position.x = -self.position[0]
         pose.position.y = self.position[1]
         pose.position.z = 0.0
         pose.orientation.w = 1.0
