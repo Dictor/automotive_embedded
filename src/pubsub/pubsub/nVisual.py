@@ -8,6 +8,19 @@ from geometry_msgs.msg import Point, Vector3
 marker_x = [1.5]
 marker_y = [0.0]
 
+red = ColorRGBA()
+red.r = 1
+red.a = 1
+
+green = ColorRGBA()
+green.r = 1
+green.a = 1
+
+scale = Vector3()
+scale.x = 1
+scale.y = 1
+scale.z = 1
+
 class nVisual(Node):
     def __init__(self):
         super().__init__('visual')
@@ -26,8 +39,8 @@ class nVisual(Node):
         point.y = marker_y[0]
         point.z = 0.0
         self.rviz_marker.points.append(point)
-        #self.rviz_marker.color = ColorRGBA(1, 1, 0, 1)
-        #self.rviz_marker.scale = Vector3(0.2, 0.2, 0)
+        self.rviz_marker.color = red
+        self.rviz_marker.scale = scale
 
         self.rviz_jetson = Marker()
         self.rviz_jetson.header.frame_id = 'map'
@@ -36,8 +49,8 @@ class nVisual(Node):
         self.rviz_jetson.type = Marker.CUBE
         self.rviz_jetson.action = Marker.MODIFY
         self.rviz_jetson.points.append(point)
-        #self.rviz_jetson.color = ColorRGBA(1, 0, 0, 1)
-        #self.rviz_jetson.scale = Vector3(0.2, 0.2, 0)
+        self.rviz_jetson.color = green
+        self.rviz_jetson.scale = scale
 
     def timer_callback(self):
         point = Point()
