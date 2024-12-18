@@ -23,6 +23,7 @@ setup(
             'rss = pubsub.nRSS:main',
             'aruco = pubsub.nAruco:main',
             'position = pubsub.nPosition:main',
+            'visual = pubsub.nVisual:main',
         ],
     },
 )
