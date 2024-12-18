@@ -34,19 +34,21 @@ class nVisual(Node):
         self.position = [0.0, 0.0]
 
         self.rviz_marker = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, 'marker', red)
-        self.rviz_reflu = make_static_marker('reflu', 2, 0, 0, 0, 'Left-Up ref', blue)
-        self.rviz_refld = make_static_marker('refld', 3, 0, 1.5, 0, 'Left-Down ref', blue)
-        self.rviz_refru = make_static_marker('refru', 4, 3, 0, 0, 'Right-Up ref', blue)
-        self.rviz_refrd = make_static_marker('refrd', 5, 3, 1.5, 0, 'Right-Down ref', blue)
+        self.rviz_marker_text = make_static_marker('marker', 1, marker_x[0], marker_y[0], 0, "(%3f, %3f)" % (marker_x[0], marker_y[1]), red, Marker.TEXT_VIEW_FACING)
+        self.rviz_reflu = make_static_marker('ref', 2, 0, 0, 0, '(0, 0)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refld = make_static_marker('ref', 3, 0, 1.5, 0, '(0, 1.5)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refru = make_static_marker('ref', 4, 3, 0, 0, '(3, 0)', blue, Marker.TEXT_VIEW_FACING)
+        self.rviz_refrd = make_static_marker('ref', 5, 3, 1.5, 0, '(3, 1.5)', blue, Marker.TEXT_VIEW_FACING)
 
         self.rviz_jetson = Marker()
         self.rviz_jetson.header.frame_id = 'map'
         self.rviz_jetson.ns = 'jetson'
-        self.rviz_jetson.id = 2
+        self.rviz_jetson.id = 6
         self.rviz_jetson.type = Marker.CUBE
         self.rviz_jetson.action = Marker.MODIFY
         self.rviz_jetson.color = green
         self.rviz_jetson.scale = scale
+        self.rviz_jetson_text = make_static_marker('jetson', 7, 0, 0, 0, "", green, Marker.TEXT_VIEW_FACING)
 
     def timer_callback(self):
         pose = Pose()
@@ -55,7 +57,9 @@ class nVisual(Node):
         pose.position.z = 0.0
         pose.orientation.w = 1.0
         self.rviz_jetson.pose = pose
-        self.rviz_jetson.text = "(%3f, %3f)" % (self.position[0], self.position[1])
+        
+        self.rviz_jetson_text.pose = pose
+        self.rviz_jetson_text.text = "(%3f, %3f)" % (self.position[0], self.position[1])
 
         marker_array = MarkerArray()
         marker_array.markers.append(self.rviz_jetson)
@@ -71,12 +75,12 @@ class nVisual(Node):
     def position_callback(self, msg):
         self.position = msg.data
 
-def make_static_marker(ns, id, x, y, z, text, color):
+def make_static_marker(ns, id, x, y, z, text, color, type=Marker.CUBE):
     marker = Marker()
     marker.header.frame_id = 'map'
     marker.ns = ns
     marker.id = id
-    marker.type = Marker.CUBE
+    marker.type = type
     marker.action = Marker.MODIFY
     pose = Pose()
     pose.position.x = float(x)
