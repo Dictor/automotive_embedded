@@ -4,7 +4,9 @@ from std_msgs.msg import String, Float32MultiArray, ColorRGBA
 
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point, Vector3
-from coord import marker_x, marker_y
+
+marker_x = [1.5]
+marker_y = [0]
 
 class nVisual(Node):
     def __init__(self):

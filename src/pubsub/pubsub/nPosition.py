@@ -2,7 +2,9 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32, Float32MultiArray, Int32
 import math
-from coord import marker_x, marker_y
+
+marker_x = [1.5]
+marker_y = [0]
 
 class nPosition(Node):
     def __init__(self):
