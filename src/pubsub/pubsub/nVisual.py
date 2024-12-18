@@ -9,17 +9,17 @@ marker_x = [1.5]
 marker_y = [0.0]
 
 red = ColorRGBA()
-red.r = 1
-red.a = 1
+red.r = 1.0
+red.a = 1.0
 
 green = ColorRGBA()
-green.r = 1
-green.a = 1
+green.r = 1.0
+green.a = 1.0
 
 scale = Vector3()
-scale.x = 1
-scale.y = 1
-scale.z = 1
+scale.x = 1.0
+scale.y = 1.0
+scale.z = 1.0
 
 class nVisual(Node):
     def __init__(self):
