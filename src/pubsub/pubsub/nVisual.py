@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String, Float32MultiArray, ColorRGBA
 
-from visualization_msgs.msg import Marker
+from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Point, Vector3
 
 marker_x = [1.5]
@@ -25,9 +25,10 @@ class nVisual(Node):
     def __init__(self):
         super().__init__('visual')
         self.position_subscription_ = self.create_subscription(Float32MultiArray, 'position', self.position_callback, 10)
-        self.publisher_ = self.create_publisher(Marker, 'marker', 10)
+        self.publisher_ = self.create_publisher(MarkerArray, 'marker', 10)
         self.timer = self.create_timer(1.0, self.timer_callback)
         self.position = [0.0, 0.0]
+
         self.rviz_marker = Marker()
         self.rviz_marker.header.frame_id = 'map'
         self.rviz_marker.ns = 'marker'
@@ -59,8 +60,11 @@ class nVisual(Node):
         point.z = 0.0
         self.rviz_jetson.points[0] = point
         self.get_logger().info('Position: "%s"' % self.position)
-        self.publisher_.publish(self.rviz_jetson)
-        self.publisher_.publish(self.rviz_marker)
+
+        marker_array = MarkerArray()
+        marker_array.markers.append(self.rviz_jetson)
+        marker_array.markers.append(self.rviz_marker)
+        self.publisher_.publish(self.marker_array)
 
 
     def position_callback(self, msg):
