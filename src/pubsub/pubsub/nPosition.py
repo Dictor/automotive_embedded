@@ -23,6 +23,9 @@ class nPosition(Node):
     def timer_callback(self):
         self.get_logger().info('all subs: dist "%s" id "%d" vector "%s"' % (self.distance, self.id, self.angle))
         self.position = self.calc_position(self.angle, self.distance, self.id)
+        if self.position is None:
+            self.get_logger().error('invalid id, skip.')
+            return
         msg = Float32MultiArray()
         msg.data = self.position
         self.publisher_.publish(msg)
@@ -41,6 +44,8 @@ class nPosition(Node):
         return
 
     def calc_position(self, angle, distance, id):
+        if id-1 > len(marker_x):
+            return None
         rad = angle[1] / 180
         x = marker_x[id] + distance * math.sin(rad)
         y = marker_y[id] + distance * math.cos(rad)
