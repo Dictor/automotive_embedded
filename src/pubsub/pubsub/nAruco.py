@@ -142,7 +142,7 @@ class nAruco(Node):
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
 
-def is_marker_center(img, corner, margin_ratio = 0.05):
+def is_marker_center(img, corner, margin_ratio = 0.10):
     (topLeft, topRight, bottomRight, bottomLeft) = corner
     corner_center_x = int((topLeft[0]+bottomRight[0]) / 2)
     corner_center_y = int((topLeft[1]+bottomRight[1]) / 2)
