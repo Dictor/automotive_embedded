@@ -3,7 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import String, Float32MultiArray, ColorRGBA
 
 from visualization_msgs.msg import Marker, MarkerArray
-from geometry_msgs.msg import Point, Vector3
+from geometry_msgs.msg import Point, Vector3, Pose
 
 marker_x = [1.5]
 marker_y = [0.0]
@@ -35,11 +35,11 @@ class nVisual(Node):
         self.rviz_marker.id = 1
         self.rviz_marker.type = Marker.CUBE
         self.rviz_marker.action = Marker.MODIFY
-        point = Point()
-        point.x = marker_x[0]
-        point.y = marker_y[0]
-        point.z = 0.0
-        self.rviz_marker.points.append(point)
+        pose = Pose()
+        pose.position.x = marker_x[0]
+        pose.position.y = marker_y[0]
+        pose.position.z = 0.0
+        self.rviz_marker.pose = pose
         self.rviz_marker.color = red
         self.rviz_marker.scale = scale
 
@@ -49,16 +49,15 @@ class nVisual(Node):
         self.rviz_jetson.id = 2
         self.rviz_jetson.type = Marker.CUBE
         self.rviz_jetson.action = Marker.MODIFY
-        self.rviz_jetson.points.append(point)
         self.rviz_jetson.color = green
         self.rviz_jetson.scale = scale
 
     def timer_callback(self):
-        point = Point()
-        point.x = self.position[0]
-        point.y = self.position[1]
-        point.z = 0.0
-        self.rviz_jetson.points[0] = point
+        pose = Pose()
+        pose.position.x = self.position[0]
+        pose.position.y = self.position[1]
+        pose.position.z = 0.0
+        self.rviz_jetson.pose = pose
 
         marker_array = MarkerArray()
         marker_array.markers.append(self.rviz_jetson)
