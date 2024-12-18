@@ -13,13 +13,13 @@ red.r = 1.0
 red.a = 1.0
 
 green = ColorRGBA()
-green.r = 1.0
+green.g = 1.0
 green.a = 1.0
 
 scale = Vector3()
-scale.x = 1.0
-scale.y = 1.0
-scale.z = 1.0
+scale.x = 0.3
+scale.y = 0.3
+scale.z = 0.3
 
 class nVisual(Node):
     def __init__(self):
