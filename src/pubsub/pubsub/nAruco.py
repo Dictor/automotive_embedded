@@ -80,17 +80,18 @@ class nAruco(Node):
         normal_vector = -rmat[:, 2]
         euler_angle = cv2.RQDecomp3x3(rmat)[0]
 
-        self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i])
-        is_center, diff_x, diff_y = is_marker_center(img, corner) 
-        if not is_center:
-            self.get_logger().error('marker is not on center')
-            return None
-        
         angle1 = 0.0
         if euler_angle[0] < 0:
             angle1 = euler_angle[0] + 180
         else:
             angle1 = 180 - euler_angle[0]
+
+        self.draw_marker_window(img, corner, id, normal_vector, rvecs[i], tvecs[i], (angle1, euler_angle[1], euler_angle[2]))
+        is_center, diff_x, diff_y = is_marker_center(img, corner) 
+        if not is_center:
+            self.get_logger().error('marker is not on center')
+            return None
+        
         return ([float(angle1), float(euler_angle[1]), float(euler_angle[2])], int(id))
         #return ([float(normal_vector[0]), float(normal_vector[1]), float(normal_vector[2])], int(id))
 
@@ -102,7 +103,7 @@ class nAruco(Node):
         cv2.waitKey(1)
 
 
-    def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec):
+    def draw_marker_window(self, img, corner, id, normal_vector, rvec, tvec, euler):
         blue_BGR = (255, 0, 0)
         green_BGR = (0, 255, 0)  # 법선 벡터
         (topLeft, topRight, bottomRight, bottomLeft) = corner
@@ -138,6 +139,7 @@ class nAruco(Node):
         is_center, diff_x, diff_y = is_marker_center(img, corner) 
         cv2.putText(img, "center : %r" % is_center, (10, 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
         cv2.putText(img, "center diff : (%d, %d)" % (diff_x, diff_y), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
+        cv2.putText(img, "euler : (%2f, %2f, %2f)" % (euler[0], euler[1], euler[2]), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, green_BGR, 2)
 
         cv2.imshow("aruco", img)
         cv2.waitKey(1)
