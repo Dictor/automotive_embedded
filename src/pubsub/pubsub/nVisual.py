@@ -6,7 +6,7 @@ from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point, Vector3
 
 marker_x = [1.5]
-marker_y = [0]
+marker_y = [0.0]
 
 class nVisual(Node):
     def __init__(self):
@@ -24,7 +24,7 @@ class nVisual(Node):
         point = Point()
         point.x = marker_x[0]
         point.y = marker_y[0]
-        point.z = 0
+        point.z = 0.0
         self.rviz_marker.points[0] = point
         self.rviz_marker.color = ColorRGBA(1, 1, 0, 1)
         self.rviz_marker.scale = Vector3(0.2, 0.2, 0)
@@ -42,7 +42,7 @@ class nVisual(Node):
         point = Point()
         point.x = self.position[0]
         point.y = self.position[1]
-        point.z = 0
+        point.z = 0.0
         self.rviz_jetson.points[0] = point
         self.get_logger().info('Position: "%s"' % self.position)
         self.publisher_.publish(self.rviz_jetson)
