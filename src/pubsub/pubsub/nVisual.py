@@ -1,9 +1,9 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String, Float32MultiArray, ColorRGBA, Vector3
+from std_msgs.msg import String, Float32MultiArray, ColorRGBA
 
 from visualization_msgs.msg import Marker
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point, Vector3
 from coord import marker_x, marker_y
 
 class nVisual(Node):
