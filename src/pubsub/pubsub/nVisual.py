@@ -63,7 +63,9 @@ class nVisual(Node):
 
         marker_array = MarkerArray()
         marker_array.markers.append(self.rviz_jetson)
+        marker_array.markers.append(self.rviz_jetson_text)
         marker_array.markers.append(self.rviz_marker)
+        marker_array.markers.append(self.rviz_marker_text)
         marker_array.markers.append(self.rviz_reflu)
         marker_array.markers.append(self.rviz_refld)
         marker_array.markers.append(self.rviz_refru)
