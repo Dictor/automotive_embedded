@@ -39,6 +39,7 @@ class nVisual(Node):
         pose.position.x = marker_x[0]
         pose.position.y = marker_y[0]
         pose.position.z = 0.0
+        pose.orientation.w = 1.0
         self.rviz_marker.pose = pose
         self.rviz_marker.color = red
         self.rviz_marker.scale = scale
@@ -57,6 +58,7 @@ class nVisual(Node):
         pose.position.x = self.position[0]
         pose.position.y = self.position[1]
         pose.position.z = 0.0
+        pose.orientation.w = 1.0
         self.rviz_jetson.pose = pose
 
         marker_array = MarkerArray()
