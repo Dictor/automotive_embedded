@@ -35,7 +35,11 @@ class nVisual(Node):
         self.rviz_jetson.scale = Vector3(0.2, 0.2, 0)
 
     def timer_callback(self):
-        self.rviz_jetson.points[0] = Point(self.position[0], self.position[1], 0)
+        point = Point()
+        point.x = self.position[0]
+        point.y = self.position[1]
+        point.z = 0
+        self.rviz_jetson.points[0] = point
         self.get_logger().info('Position: "%s"' % self.position)
         self.publisher_.publish(self.rviz_jetson)
         self.publisher_.publish(self.rviz_marker)
