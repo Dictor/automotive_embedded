@@ -21,7 +21,11 @@ class nVisual(Node):
         self.rviz_marker.id = 1
         self.rviz_marker.type = Marker.CUBE
         self.rviz_marker.action = Marker.MODIFY
-        self.rviz_marker.points[0] = Point(marker_x, marker_y, 0)
+        point = Point()
+        point.x = marker_x[0]
+        point.y = marker_y[0]
+        point.z = 0
+        self.rviz_marker.points[0] = point
         self.rviz_marker.color = ColorRGBA(1, 1, 0, 1)
         self.rviz_marker.scale = Vector3(0.2, 0.2, 0)
 
