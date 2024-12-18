@@ -64,7 +64,7 @@ class nVisual(Node):
         marker_array = MarkerArray()
         marker_array.markers.append(self.rviz_jetson)
         marker_array.markers.append(self.rviz_marker)
-        self.publisher_.publish(self.marker_array)
+        self.publisher_.publish(marker_array)
 
 
     def position_callback(self, msg):
